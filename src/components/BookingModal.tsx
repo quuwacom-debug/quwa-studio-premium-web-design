@@ -64,7 +64,7 @@ const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
           
           {/* Modal */}
           <motion.div
-            className="relative w-full max-w-lg glass-card p-8 md:p-10"
+            className="relative w-full max-w-2xl glass-card p-8 md:p-10 max-h-[90vh] overflow-y-auto"
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -94,35 +94,72 @@ const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
                   </p>
                   
                   <form onSubmit={handleSubmit} className="space-y-5">
-                    <div>
-                      <label className="block text-sm font-medium text-muted-foreground mb-2">
-                        Full Name *
-                      </label>
-                      <input
-                        type="text"
-                        name="fullName"
-                        value={formData.fullName}
-                        onChange={handleChange}
-                        required
-                        className="w-full px-4 py-3 rounded-xl bg-secondary border border-border focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
-                        placeholder="John Doe"
-                      />
+                    {/* Row 1: Full Name & Company Name */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium text-muted-foreground mb-2">
+                          Full Name *
+                        </label>
+                        <input
+                          type="text"
+                          name="fullName"
+                          value={formData.fullName}
+                          onChange={handleChange}
+                          required
+                          className="w-full px-4 py-3 rounded-xl bg-secondary border border-border focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
+                          placeholder="John Doe"
+                        />
+                      </div>
+                      
+                      <div>
+                        <label className="block text-sm font-medium text-muted-foreground mb-2">
+                          Company Name
+                        </label>
+                        <input
+                          type="text"
+                          name="companyName"
+                          value={formData.companyName}
+                          onChange={handleChange}
+                          className="w-full px-4 py-3 rounded-xl bg-secondary border border-border focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
+                          placeholder="Your Company"
+                        />
+                      </div>
                     </div>
                     
-                    <div>
-                      <label className="block text-sm font-medium text-muted-foreground mb-2">
-                        Company Name
-                      </label>
-                      <input
-                        type="text"
-                        name="companyName"
-                        value={formData.companyName}
-                        onChange={handleChange}
-                        className="w-full px-4 py-3 rounded-xl bg-secondary border border-border focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
-                        placeholder="Your Company"
-                      />
+                    {/* Row 2: Email & WhatsApp */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium text-muted-foreground mb-2">
+                          Email Address *
+                        </label>
+                        <input
+                          type="email"
+                          name="email"
+                          value={formData.email}
+                          onChange={handleChange}
+                          required
+                          className="w-full px-4 py-3 rounded-xl bg-secondary border border-border focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
+                          placeholder="john@company.com"
+                        />
+                      </div>
+                      
+                      <div>
+                        <label className="block text-sm font-medium text-muted-foreground mb-2">
+                          WhatsApp Number *
+                        </label>
+                        <input
+                          type="tel"
+                          name="whatsapp"
+                          value={formData.whatsapp}
+                          onChange={handleChange}
+                          required
+                          className="w-full px-4 py-3 rounded-xl bg-secondary border border-border focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
+                          placeholder="+1 234 567 8900"
+                        />
+                      </div>
                     </div>
                     
+                    {/* Row 3: Industry (full width with other input) */}
                     <div>
                       <label className="block text-sm font-medium text-muted-foreground mb-2">
                         Industry *
@@ -165,36 +202,7 @@ const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
                       )}
                     </div>
                     
-                    <div>
-                      <label className="block text-sm font-medium text-muted-foreground mb-2">
-                        WhatsApp Number *
-                      </label>
-                      <input
-                        type="tel"
-                        name="whatsapp"
-                        value={formData.whatsapp}
-                        onChange={handleChange}
-                        required
-                        className="w-full px-4 py-3 rounded-xl bg-secondary border border-border focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
-                        placeholder="+1 234 567 8900"
-                      />
-                    </div>
-                    
-                    <div>
-                      <label className="block text-sm font-medium text-muted-foreground mb-2">
-                        Email Address *
-                      </label>
-                      <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        required
-                        className="w-full px-4 py-3 rounded-xl bg-secondary border border-border focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
-                        placeholder="john@company.com"
-                      />
-                    </div>
-                    
+                    {/* Message (full width) */}
                     <div>
                       <label className="block text-sm font-medium text-muted-foreground mb-2">
                         Message
