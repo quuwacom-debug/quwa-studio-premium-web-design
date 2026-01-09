@@ -13,6 +13,7 @@ const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
     fullName: '',
     companyName: '',
     industry: '',
+    otherIndustry: '',
     whatsapp: '',
     email: '',
   });
@@ -22,7 +23,7 @@ const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
     setIsSubmitted(true);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
@@ -34,6 +35,7 @@ const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
         fullName: '',
         companyName: '',
         industry: '',
+        otherIndustry: '',
         whatsapp: '',
         email: '',
       });
@@ -132,13 +134,33 @@ const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
                       >
                         <option value="">Select your industry</option>
                         <option value="tech">Technology / SaaS</option>
-                        <option value="ecommerce">E-commerce</option>
                         <option value="finance">Finance / Fintech</option>
                         <option value="healthcare">Healthcare</option>
                         <option value="realestate">Real Estate</option>
+                        <option value="restaurant">Restaurant</option>
+                        <option value="school">School</option>
                         <option value="agency">Agency / Consulting</option>
                         <option value="other">Other</option>
                       </select>
+                      
+                      {formData.industry === 'other' && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: 'auto' }}
+                          exit={{ opacity: 0, height: 0 }}
+                          className="mt-3"
+                        >
+                          <input
+                            type="text"
+                            name="otherIndustry"
+                            value={formData.otherIndustry}
+                            onChange={handleChange}
+                            required
+                            className="w-full px-4 py-3 rounded-xl bg-secondary border border-border focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
+                            placeholder="Please specify your industry"
+                          />
+                        </motion.div>
+                      )}
                     </div>
                     
                     <div>
