@@ -16,6 +16,7 @@ const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
     otherIndustry: '',
     whatsapp: '',
     email: '',
+    message: '',
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -38,6 +39,7 @@ const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
         otherIndustry: '',
         whatsapp: '',
         email: '',
+        message: '',
       });
     }, 300);
   };
@@ -190,6 +192,20 @@ const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
                         required
                         className="w-full px-4 py-3 rounded-xl bg-secondary border border-border focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
                         placeholder="john@company.com"
+                      />
+                    </div>
+                    
+                    <div>
+                      <label className="block text-sm font-medium text-muted-foreground mb-2">
+                        Message
+                      </label>
+                      <textarea
+                        name="message"
+                        value={formData.message}
+                        onChange={handleChange}
+                        rows={4}
+                        className="w-full px-4 py-3 rounded-xl bg-secondary border border-border focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors resize-none"
+                        placeholder="Tell us about your project..."
                       />
                     </div>
                     
