@@ -27,8 +27,11 @@ const Footer = () => {
               className="text-2xl font-bold mb-2"
               whileHover={{ scale: 1.02 }}
             >
-              <span className="text-gradient-orange">Quwa</span>{' '}
-              <span className="text-gradient">Studio</span>
+              <img
+                src="/main.logo.png"
+                alt="Quwa Studio"
+                className="h-12 md:h-16 w-auto object-contain mb-4 mx-auto md:mx-0"
+              />
             </motion.h3>
             <p className="text-muted-foreground text-sm">
               Web Design · Branding · Growth
@@ -37,7 +40,7 @@ const Footer = () => {
               © 2026 Quwa Studio. All rights reserved.
             </p>
           </div>
-          
+
           {/* Center - Navigation */}
           <nav className="flex flex-wrap justify-center gap-x-8 gap-y-4">
             {navLinks.map((link) => (
@@ -51,7 +54,7 @@ const Footer = () => {
               </motion.a>
             ))}
           </nav>
-          
+
           {/* Right - Social */}
           <div className="flex justify-center md:justify-end gap-4">
             {socialLinks.map((social) => (

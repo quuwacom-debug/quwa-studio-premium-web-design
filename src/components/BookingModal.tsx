@@ -1,6 +1,8 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 import { X, CheckCircle } from 'lucide-react';
+import { supabase } from '@/lib/supabase';
+import { toast } from 'sonner';
 
 interface BookingModalProps {
   isOpen: boolean;
@@ -19,9 +21,43 @@ const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
     message: '',
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitted(true);
+
+    try {
+      const { error } = await supabase
+        .from('bookings')
+        .insert([
+          {
+            full_name: formData.fullName,
+            company_name: formData.companyName,
+            email: formData.email,
+            whatsapp: formData.whatsapp,
+            industry: formData.industry === 'other' ? formData.otherIndustry : formData.industry,
+            message: formData.message,
+          },
+        ]);
+
+      if (error) throw error;
+
+      // Trigger email notification
+      await supabase.functions.invoke('send-booking-email', {
+        body: {
+          record: {
+            full_name: formData.fullName,
+            company_name: formData.companyName,
+            email: formData.email,
+            message: formData.message,
+          }
+        }
+      });
+
+      setIsSubmitted(true);
+      toast.success('Booking request submitted successfully!');
+    } catch (error) {
+      console.error('Error submitting booking:', error);
+      toast.error('Failed to submit booking. Please try again.');
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -61,7 +97,7 @@ const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
             exit={{ opacity: 0 }}
             onClick={handleClose}
           />
-          
+
           {/* Modal */}
           <motion.div
             className="relative w-full max-w-2xl glass-card p-8 md:p-10 max-h-[90vh] overflow-y-auto"
@@ -77,7 +113,7 @@ const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
             >
               <X className="w-5 h-5 text-muted-foreground" />
             </button>
-            
+
             <AnimatePresence mode="wait">
               {!isSubmitted ? (
                 <motion.div
@@ -92,7 +128,7 @@ const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
                   <p className="text-muted-foreground mb-8">
                     Let's discuss how we can transform your digital presence.
                   </p>
-                  
+
                   <form onSubmit={handleSubmit} className="space-y-5">
                     {/* Row 1: Full Name & Company Name */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -110,7 +146,7 @@ const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
                           placeholder="John Doe"
                         />
                       </div>
-                      
+
                       <div>
                         <label className="block text-sm font-medium text-muted-foreground mb-2">
                           Company Name
@@ -125,7 +161,7 @@ const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
                         />
                       </div>
                     </div>
-                    
+
                     {/* Row 2: Email & WhatsApp */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
@@ -142,7 +178,7 @@ const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
                           placeholder="john@company.com"
                         />
                       </div>
-                      
+
                       <div>
                         <label className="block text-sm font-medium text-muted-foreground mb-2">
                           WhatsApp Number *
@@ -158,7 +194,7 @@ const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
                         />
                       </div>
                     </div>
-                    
+
                     {/* Row 3: Industry (full width with other input) */}
                     <div>
                       <label className="block text-sm font-medium text-muted-foreground mb-2">
@@ -181,7 +217,7 @@ const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
                         <option value="agency">Agency / Consulting</option>
                         <option value="other">Other</option>
                       </select>
-                      
+
                       {formData.industry === 'other' && (
                         <motion.div
                           initial={{ opacity: 0, height: 0 }}
@@ -201,7 +237,7 @@ const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
                         </motion.div>
                       )}
                     </div>
-                    
+
                     {/* Message (full width) */}
                     <div>
                       <label className="block text-sm font-medium text-muted-foreground mb-2">
@@ -216,7 +252,7 @@ const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
                         placeholder="Tell us about your project..."
                       />
                     </div>
-                    
+
                     <motion.button
                       type="submit"
                       className="w-full glass-button text-lg mt-4"
@@ -243,14 +279,14 @@ const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
                   >
                     <CheckCircle className="w-10 h-10 text-primary" />
                   </motion.div>
-                  
+
                   <h3 className="text-2xl md:text-3xl font-bold mb-4 text-gradient">
                     Thank You!
                   </h3>
                   <p className="text-muted-foreground text-lg">
                     Thanks for reaching out! Our team will contact you shortly.
                   </p>
-                  
+
                   <motion.button
                     onClick={handleClose}
                     className="mt-8 px-8 py-3 rounded-xl border border-border text-foreground font-medium hover:bg-secondary transition-colors"
