@@ -42,7 +42,7 @@ const Navbar = () => {
             whileHover={{ scale: 1.02 }}
           >
             <img
-              src="/main.logo.png"
+              src="/Quuwa.png"
               alt="Quwa Studio"
               className="h-12 md:h-16 w-auto object-contain"
             />

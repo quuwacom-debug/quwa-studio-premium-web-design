@@ -23,16 +23,17 @@ const Footer = () => {
         <div className="grid md:grid-cols-3 gap-12 items-center">
           {/* Left - Brand */}
           <div className="text-center md:text-left">
-            <motion.h3
-              className="text-2xl font-bold mb-2"
+            <motion.a
+              href="#"
+              className="inline-block text-2xl font-bold mb-2"
               whileHover={{ scale: 1.02 }}
             >
               <img
-                src="/main.logo.png"
+                src="/Quuwa.png"
                 alt="Quwa Studio"
                 className="h-12 md:h-16 w-auto object-contain mb-4 mx-auto md:mx-0"
               />
-            </motion.h3>
+            </motion.a>
             <p className="text-muted-foreground text-sm">
               Web Design · Branding · Growth
             </p>
